@@ -1,4 +1,4 @@
-int x=121;
+// int x=121;
 
 class Solution {
         public boolean isPalindrome(int x) {
