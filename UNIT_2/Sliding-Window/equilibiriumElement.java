@@ -66,3 +66,5 @@ import java.util.*;
         System.out.println(equilibrium(arr, n));
     }
 }
+
+// Done
