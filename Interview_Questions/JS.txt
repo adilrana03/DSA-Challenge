@@ -513,3 +513,173 @@ Maximum data size 4KB 5 MB 5MB
 
 What is the main difference between localStorage and sessionStorage
 LocalStorage is the same as SessionStorage but it persists the data even when the browser is closed and reopened(i.e it has no expiration time) whereas in sessionStorage data gets cleared when the page session ends.
+What is a storage event and its event handler
+The StorageEvent is an event that fires when a storage area has been changed in the context of another document. Whereas onstorage property is an EventHandler for processing storage events. The syntax would be as below
+
+window.onstorage = functionRef;
+Let's take the example usage of onstorage event handler which logs the storage key and it's values
+
+window.onstorage = function (e) {
+  console.log(
+    "The " +
+      e.key +
+      " key has been changed from " +
+      e.oldValue +
+      " to " +
+      e.newValue +
+      "."
+  );
+};
+⬆ Back to Top
+
+Why do you need web storage
+Web storage is more secure, and large amounts of data can be stored locally, without affecting website performance. Also, the information is never transferred to the server. Hence this is a more recommended approach than Cookies.
+
+⬆ Back to Top
+
+How do you check web storage browser support
+You need to check browser support for localStorage and sessionStorage before using web storage,
+
+if (typeof Storage !== "undefined") {
+  // Code for localStorage/sessionStorage.
+} else {
+  // Sorry! No Web Storage support..
+}
+⬆ Back to Top
+
+How do you check web workers browser support
+You need to check browser support for web workers before using it
+
+if (typeof Worker !== "undefined") {
+  // code for Web worker support.
+} else {
+  // Sorry! No Web Worker support..
+}
+⬆ Back to Top
+
+Give an example of a web worker
+You need to follow below steps to start using web workers for counting example
+
+Create a Web Worker File: You need to write a script to increment the count value. Let's name it as counter.js
+let i = 0;
+
+function timedCount() {
+  i = i + 1;
+  postMessage(i);
+  setTimeout("timedCount()", 500);
+}
+
+timedCount();
+Here postMessage() method is used to post a message back to the HTML page
+
+Create a Web Worker Object: You can create a web worker object by checking for browser support. Let's name this file as web_worker_example.js
+if (typeof w == "undefined") {
+  w = new Worker("counter.js");
+}
+and we can receive messages from web worker
+
+w.onmessage = function (event) {
+  document.getElementById("message").innerHTML = event.data;
+};
+Terminate a Web Worker: Web workers will continue to listen for messages (even after the external script is finished) until it is terminated. You can use the terminate() method to terminate listening to the messages.
+w.terminate();
+Reuse the Web Worker: If you set the worker variable to undefined you can reuse the code
+w = undefined;
+⬆ Back to Top
+
+What are the restrictions of web workers on DOM
+WebWorkers don't have access to below javascript objects since they are defined in an external files
+
+Window object
+Document object
+Parent object
+⬆ Back to Top
+
+What is a promise
+A promise is an object that may produce a single value some time in the future with either a resolved value or a reason that it’s not resolved(for example, network error). It will be in one of the 3 possible states: fulfilled, rejected, or pending.
+
+The syntax of Promise creation looks like below,
+
+const promise = new Promise(function (resolve, reject) {
+  // promise description
+});
+The usage of a promise would be as below,
+
+const promise = new Promise(
+  (resolve) => {
+    setTimeout(() => {
+      resolve("I'm a Promise!");
+    }, 5000);
+  },
+  (reject) => {}
+);
+
+promise.then((value) => console.log(value));
+The action flow of a promise will be as below,
+
+Screenshot
+
+⬆ Back to Top
+
+Why do you need a promise
+Promises are used to handle asynchronous operations. They provide an alternative approach for callbacks by reducing the callback hell and writing the cleaner code.
+
+⬆ Back to Top
+
+What are the three states of promise
+Promises have three states:
+
+Pending: This is an initial state of the Promise before an operation begins
+Fulfilled: This state indicates that the specified operation was completed.
+Rejected: This state indicates that the operation did not complete. In this case an error value will be thrown.
+⬆ Back to Top
+
+What is a callback function
+A callback function is a function passed into another function as an argument. This function is invoked inside the outer function to complete an action. Let's take a simple example of how to use callback function
+
+function callbackFunction(name) {
+  console.log("Hello " + name);
+}
+
+function outerFunction(callback) {
+  let name = prompt("Please enter your name.");
+  callback(name);
+}
+
+outerFunction(callbackFunction);
+⬆ Back to Top
+
+Why do we need callbacks
+The callbacks are needed because javascript is an event driven language. That means instead of waiting for a response javascript will keep executing while listening for other events. Let's take an example with the first function invoking an API call(simulated by setTimeout) and the next function which logs the message.
+
+function firstFunction() {
+  // Simulate a code delay
+  setTimeout(function () {
+    console.log("First function called");
+  }, 1000);
+}
+function secondFunction() {
+  console.log("Second function called");
+}
+firstFunction();
+secondFunction();
+
+Output;
+// Second function called
+// First function called
+As observed from the output, javascript didn't wait for the response of the first function and the remaining code block got executed. So callbacks are used in a way to make sure that certain code doesn’t execute until the other code finishes execution.
+
+⬆ Back to Top
+
+What is a callback hell
+Callback Hell is an anti-pattern with multiple nested callbacks which makes code hard to read and debug when dealing with asynchronous logic. The callback hell looks like below,
+
+async1(function(){
+    async2(function(){
+        async3(function(){
+            async4(function(){
+                ....
+            });
+        });
+    });
+});
