@@ -683,3 +683,204 @@ async1(function(){
         });
     });
 });
+
+
+
+What is callback in callback
+You can nest one callback inside in another callback to execute the actions sequentially one by one. This is known as callbacks in callbacks.
+
+loadScript("/script1.js", function (script) {
+  console.log("first script is loaded");
+
+  loadScript("/script2.js", function (script) {
+    console.log("second script is loaded");
+
+    loadScript("/script3.js", function (script) {
+      console.log("third script is loaded");
+      // after all scripts are loaded
+    });
+  });
+});
+⬆ Back to Top
+
+What is promise chaining
+The process of executing a sequence of asynchronous tasks one after another using promises is known as Promise chaining. Let's take an example of promise chaining for calculating the final result,
+
+new Promise(function (resolve, reject) {
+  setTimeout(() => resolve(1), 1000);
+})
+  .then(function (result) {
+    console.log(result); // 1
+    return result * 2;
+  })
+  .then(function (result) {
+    console.log(result); // 2
+    return result * 3;
+  })
+  .then(function (result) {
+    console.log(result); // 6
+    return result * 4;
+  });
+In the above handlers, the result is passed to the chain of .then() handlers with the below work flow,
+
+The initial promise resolves in 1 second,
+After that .then handler is called by logging the result(1) and then return a promise with the value of result * 2.
+After that the value passed to the next .then handler by logging the result(2) and return a promise with result * 3.
+Finally the value passed to the last .then handler by logging the result(6) and return a promise with result * 4.
+⬆ Back to Top
+
+What is promise.all
+Promise.all is a promise that takes an array of promises as an input (an iterable), and it gets resolved when all the promises get resolved or any one of them gets rejected. For example, the syntax of promise.all method is below,
+
+Promise.all([Promise1, Promise2, Promise3]) .then(result) => {   console.log(result) }) .catch(error => console.log(`Error in promises ${error}`))
+Note: Remember that the order of the promises(output the result) is maintained as per input order.
+
+⬆ Back to Top
+
+What is the purpose of the race method in promise
+Promise.race() method will return the promise instance which is firstly resolved or rejected. Let's take an example of race() method where promise2 is resolved first
+
+var promise1 = new Promise(function (resolve, reject) {
+  setTimeout(resolve, 500, "one");
+});
+var promise2 = new Promise(function (resolve, reject) {
+  setTimeout(resolve, 100, "two");
+});
+
+Promise.race([promise1, promise2]).then(function (value) {
+  console.log(value); // "two" // Both promises will resolve, but promise2 is faster
+});
+⬆ Back to Top
+
+What is a strict mode in javascript
+Strict Mode is a new feature in ECMAScript 5 that allows you to place a program, or a function, in a “strict” operating context. This way it prevents certain actions from being taken and throws more exceptions. The literal expression "use strict"; instructs the browser to use the javascript code in the Strict mode.
+
+⬆ Back to Top
+
+Why do you need strict mode
+Strict mode is useful to write "secure" JavaScript by notifying "bad syntax" into real errors. For example, it eliminates accidentally creating a global variable by throwing an error and also throws an error for assignment to a non-writable property, a getter-only property, a non-existing property, a non-existing variable, or a non-existing object.
+
+⬆ Back to Top
+
+How do you declare strict mode
+The strict mode is declared by adding "use strict"; to the beginning of a script or a function. If declared at the beginning of a script, it has global scope.
+
+"use strict";
+x = 3.14; // This will cause an error because x is not declared
+and if you declare inside a function, it has local scope
+
+x = 3.14; // This will not cause an error.
+myFunction();
+
+function myFunction() {
+  "use strict";
+  y = 3.14; // This will cause an error
+}
+⬆ Back to Top
+
+What is the purpose of double exclamation
+The double exclamation or negation(!!) ensures the resulting type is a boolean. If it was falsey (e.g. 0, null, undefined, etc.), it will be false, otherwise, it will be true. For example, you can test IE version using this expression as below,
+
+let isIE8 = false;
+isIE8 = !!navigator.userAgent.match(/MSIE 8.0/);
+console.log(isIE8); // returns true or false
+If you don't use this expression then it returns the original value.
+
+console.log(navigator.userAgent.match(/MSIE 8.0/)); // returns either an Array or null
+Note: The expression !! is not an operator, but it is just twice of ! operator.
+
+⬆ Back to Top
+
+What is the purpose of the delete operator
+The delete keyword is used to delete the property as well as its value.
+
+var user = { name: "John", age: 20 };
+delete user.age;
+
+console.log(user); // {name: "John"}
+⬆ Back to Top
+
+What is typeof operator
+You can use the JavaScript typeof operator to find the type of a JavaScript variable. It returns the type of a variable or an expression.
+
+typeof "John Abraham"; // Returns "string"
+typeof (1 + 2); // Returns "number"
+typeof [1, 2, 3] // Returns "object" because all arrays are also objects
+⬆ Back to Top
+
+What is undefined property
+The undefined property indicates that a variable has not been assigned a value, or declared but not initialized at all. The type of undefined value is undefined too.
+
+var user; // Value is undefined, type is undefined
+console.log(typeof user); //undefined
+Any variable can be emptied by setting the value to undefined.
+
+user = undefined;
+⬆ Back to Top
+
+What is null value
+The value null represents the intentional absence of any object value. It is one of JavaScript's primitive values. The type of null value is object. You can empty the variable by setting the value to null.
+
+var user = null;
+console.log(typeof user); //object
+⬆ Back to Top
+
+What is the difference between null and undefined
+Below are the main differences between null and undefined,
+
+Null	Undefined
+It is an assignment value which indicates that variable points to no object.	It is not an assignment value where a variable has been declared but has not yet been assigned a value.
+Type of null is object	Type of undefined is undefined
+The null value is a primitive value that represents the null, empty, or non-existent reference.	The undefined value is a primitive value used when a variable has not been assigned a value.
+Indicates the absence of a value for a variable	Indicates absence of variable itself
+Converted to zero (0) while performing primitive operations	Converted to NaN while performing primitive operations
+⬆ Back to Top
+
+What is eval
+The eval() function evaluates JavaScript code represented as a string. The string can be a JavaScript expression, variable, statement, or sequence of statements.
+
+console.log(eval("1 + 2")); //  3
+⬆ Back to Top
+
+What is the difference between window and document
+Below are the main differences between window and document,
+
+Window	Document
+It is the root level element in any web page	It is the direct child of the window object. This is also known as Document Object Model(DOM)
+By default window object is available implicitly in the page	You can access it via window.document or document.
+It has methods like alert(), confirm() and properties like document, location	It provides methods like getElementById, getElementsByTagName, createElement etc
+⬆ Back to Top
+
+How do you access history in javascript
+The window.history object contains the browser's history. You can load previous and next URLs in the history using back() and next() methods.
+
+function goBack() {
+  window.history.back();
+}
+function goForward() {
+  window.history.forward();
+}
+Note: You can also access history without window prefix.
+
+⬆ Back to Top
+
+How do you detect caps lock key turned on or not
+The mouseEvent getModifierState() is used to return a boolean value that indicates whether the specified modifier key is activated or not. The modifiers such as CapsLock, ScrollLock and NumLock are activated when they are clicked, and deactivated when they are clicked again.
+
+Let's take an input element to detect the CapsLock on/off behavior with an example,
+
+<input type="password" onmousedown="enterInput(event)" />
+
+<p id="feedback"></p>
+
+<script>
+  function enterInput(e) {
+    var flag = e.getModifierState("CapsLock");
+    if (flag) {
+      document.getElementById("feedback").innerHTML = "CapsLock activated";
+    } else {
+      document.getElementById("feedback").innerHTML =
+        "CapsLock not activated";
+    }
+  }
+</script>
